@@ -8,3 +8,5 @@ export const auth = betterAuth({
   ...config,
   database: drizzleAdapter(db, { provider: 'sqlite' }),
 })
+
+export type AuthType = typeof auth

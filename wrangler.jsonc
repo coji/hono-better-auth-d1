@@ -7,6 +7,10 @@
     "nodejs_compat",
     "nodejs_compat_populate_process_env"
   ],
+  "vars": {
+    "BETTER_AUTH_URL": "http://localhost:8787",
+    "CLIENT_ORIGIN": "http://localhost:5173"
+  },
   "d1_databases": [
     {
       "binding": "DB",

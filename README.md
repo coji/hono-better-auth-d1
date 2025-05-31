@@ -163,6 +163,47 @@ pnpm typegen              # Cloudflare Workers 型生成
 - `POST /api/auth/sign-out` - ユーザーログアウト
 - `GET /api/auth/session` - セッション情報取得
 
+## 🔧 環境変数設定
+
+### 開発環境
+
+#### .env（SPAクライアント用）
+```bash
+BETTER_AUTH_SECRET=your-secret-key
+DATABASE_URL=:memory:
+
+# SPA用（Viteビルド時に埋め込まれる）
+VITE_API_URL=http://localhost:8787
+```
+
+#### wrangler.jsonc（Cloudflare Workers用）
+```jsonc
+{
+  "vars": {
+    "BETTER_AUTH_URL": "http://localhost:8787",
+    "CLIENT_ORIGIN": "http://localhost:5173"
+  }
+}
+```
+
+### 本番環境
+
+本番デプロイ時は `wrangler.jsonc` の `vars` を更新：
+
+```jsonc
+{
+  "vars": {
+    "BETTER_AUTH_URL": "https://your-api.domain.com",
+    "CLIENT_ORIGIN": "https://your-spa.domain.com"
+  }
+}
+```
+
+複数オリジンを許可する場合はカンマ区切り：
+```jsonc
+"CLIENT_ORIGIN": "https://app.domain.com,https://admin.domain.com"
+```
+
 ## 🚀 デプロイ
 
 ### Cloudflare Workers & D1
@@ -179,7 +220,9 @@ npx wrangler login
 npx wrangler d1 create hono-better-auth-db
 ```
 
-3. `wrangler.jsonc` を更新して、作成されたデータベースIDを設定
+3. `wrangler.jsonc` を更新：
+   - 作成されたデータベースIDを設定
+   - 本番用の環境変数を設定
 
 4. 本番データベースにマイグレーション実行：
 
@@ -260,7 +303,9 @@ const schema = z.object({
 - **React Router v7**: SPAモード（`ssr: false`）でプリレンダリング有効
 - **TypeScript設定**: モノレポ構成で、フロントエンドとバックエンドで分離
 - **Better Auth**: email/password認証のみ有効化
-- **CORS設定**: ローカル開発環境（localhost:5173）に対応
+- **環境設定**: Cloudflare Workers の `nodejs_compat_populate_process_env` で `process.env` 対応
+- **動的CORS**: 環境変数によるオリジン設定でマルチ環境対応
+- **動的Auth設定**: Better Auth の `trustedOrigins` も環境変数で動的設定
 - **フォーム処理**: Conform + Zod で型安全なフォームバリデーション
 - **セッション管理**: クライアントサイドでのセッション状態管理
 

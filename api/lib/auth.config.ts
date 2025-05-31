@@ -4,5 +4,5 @@ export const config = {
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: ['http://localhost:5173'],
+  trustedOrigins: [process.env.CLIENT_ORIGIN ?? ''],
 } satisfies Omit<BetterAuthOptions, 'database'>
