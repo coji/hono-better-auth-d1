@@ -5,17 +5,20 @@
 ## 🚀 技術スタック
 
 ### バックエンド
+
 - **[Hono](https://hono.dev/)** - 軽量で高速なWebフレームワーク
 - **[Better Auth](https://www.better-auth.com/)** - モダンな認証ライブラリ
 - **[Cloudflare D1](https://developers.cloudflare.com/d1/)** - SQLiteベースのサーバーレスデータベース
 - **[Drizzle ORM](https://orm.drizzle.team/)** - TypeScript ORMとスキーマビルダー
 
 ### フロントエンド
+
 - **[React Router v7](https://reactrouter.com/)** - SPAモード（`ssr: false`）でファイルベースルーティング
 - **[Tailwind CSS v4](https://tailwindcss.com/)** - ユーティリティファーストCSSフレームワーク
 - **[shadcn/ui](https://ui.shadcn.com/)** - 美しく再利用可能なコンポーネント
 
 ### 開発ツール
+
 - **TypeScript** - 型安全性
 - **Biome** - 高速なリンター・フォーマッター
 - **Prettier** - コードフォーマッター
@@ -72,7 +75,7 @@ pnpm dev:client # React Routerフロントエンド
 
 ## 📁 プロジェクト構造
 
-```
+```txt
 ├── api/                    # バックエンド（Hono）
 │   ├── index.ts           # メインアプリケーション
 │   ├── lib/
@@ -113,6 +116,7 @@ pnpm dev:client # React Routerフロントエンド
 ## 🔧 利用可能なコマンド
 
 ### 開発
+
 ```bash
 pnpm dev                   # 開発サーバー起動（フロント・バック同時）
 pnpm dev:api              # バックエンドのみ起動
@@ -121,6 +125,7 @@ pnpm build                # プロダクションビルド
 ```
 
 ### データベース
+
 ```bash
 pnpm db:generate          # マイグレーションファイル生成
 pnpm db:migrate           # ローカルDBマイグレーション実行
@@ -129,6 +134,7 @@ pnpm auth:generate        # Better Auth スキーマ生成
 ```
 
 ### コード品質
+
 ```bash
 pnpm validate             # 全体検証（フォーマット・リント・型チェック）
 pnpm lint                 # Biome リント実行
@@ -137,6 +143,7 @@ pnpm typecheck            # TypeScript 型チェック
 ```
 
 ### デプロイ
+
 ```bash
 pnpm deploy               # Cloudflare Workers にデプロイ
 pnpm typegen              # Cloudflare Workers 型生成
@@ -156,11 +163,13 @@ pnpm typegen              # Cloudflare Workers 型生成
 ### Cloudflare Workers & D1
 
 1. Cloudflareアカウントでログイン：
+
 ```bash
 npx wrangler login
 ```
 
 2. D1データベースを作成：
+
 ```bash
 npx wrangler d1 create hono-better-auth-db
 ```
@@ -168,11 +177,13 @@ npx wrangler d1 create hono-better-auth-db
 3. `wrangler.jsonc` を更新して、作成されたデータベースIDを設定
 
 4. 本番データベースにマイグレーション実行：
+
 ```bash
 pnpm db:migrate:prod
 ```
 
 5. デプロイ：
+
 ```bash
 pnpm deploy
 ```
@@ -180,14 +191,16 @@ pnpm deploy
 ## ⚙️ React Router v7 SPA 設定
 
 `react-router.config.ts`:
+
 ```typescript
 export default {
-  ssr: false,      // SPAモード有効
+  ssr: false, // SPAモード有効
   prerender: true, // プリレンダリング有効
 } satisfies Config
 ```
 
 SPAモードにより：
+
 - クライアントサイドルーティング
 - 高速なページ遷移
 - ビルド時プリレンダリング

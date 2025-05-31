@@ -1,4 +1,4 @@
-import { SignupForm } from '@/components/signup-form'
+import { SignupForm } from '~/routes/signup/components/signup-form'
 
 export function meta() {
   return [

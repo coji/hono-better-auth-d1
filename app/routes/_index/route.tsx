@@ -1,6 +1,6 @@
-import { Dashboard } from '@/components/dashboard'
-import { SigninForm } from '@/components/signin-form'
 import { useSession } from '~/hooks/use-session'
+import { Dashboard } from '~/routes/_index/components/dashboard'
+import { SigninForm } from '~/routes/_index/components/signin-form'
 
 export function meta() {
   return [
