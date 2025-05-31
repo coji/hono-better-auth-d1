@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hono-better-auth-d1",
-  "main": "src/index.ts",
+  "main": "api/index.ts",
   "compatibility_date": "2025-05-30",
   "compatibility_flags": [
     "nodejs_compat",
