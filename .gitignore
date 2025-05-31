@@ -14,6 +14,7 @@ dist/
 # deps
 node_modules/
 .wrangler
+*.tsbuildinfo
 
 # env
 .env
@@ -31,3 +32,8 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+
+
+# React Router
+/.react-router/
+/build/

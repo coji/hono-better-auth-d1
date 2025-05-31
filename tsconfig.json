@@ -1,15 +1,14 @@
 {
-  "include": ["scripts", "src"],
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.cloudflare.json" }
+  ],
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "strict": true,
+    "checkJs": true,
+    "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "lib": ["ESNext"],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-    "types": ["./worker-configuration.d.ts", "@types/node"],
+    "strict": true,
     "noEmit": true
   }
 }
