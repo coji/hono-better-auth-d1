@@ -14,8 +14,8 @@
     "validate": "run-p format lint && run-p typecheck",
     "auth:generate": "pnpm dlx @better-auth/cli generate --config scripts/auth.migration-dummy.ts --output src/db/schema-better-auth.ts",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "wrangler d1 migrations apply journal-db --local",
-    "db:migrate:prod": "wrangler d1 migrations apply journal-db"
+    "db:migrate": "wrangler d1 migrations apply hono-better-auth-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply hono-better-auth-db"
   },
   "dependencies": {
     "@conform-to/react": "1.6.1",
