@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@conform-to/react':
+        specifier: 1.6.1
+        version: 1.6.1(react@19.1.0)
+      '@conform-to/zod':
+        specifier: 1.6.1
+        version: 1.6.1(zod@3.25.42)
       '@paralleldrive/cuid2':
         specifier: 2.2.2
         version: 2.2.2
@@ -74,6 +80,9 @@ importers:
       vite-tsconfig-paths:
         specifier: 5.1.4
         version: 5.1.4(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(lightningcss@1.30.1)(tsx@4.19.4))
+      zod:
+        specifier: 3.25.42
+        version: 3.25.42
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -359,6 +368,19 @@ packages:
 
   '@cloudflare/workers-types@4.20250531.0':
     resolution: {integrity: sha512-iVcWk78z1qNnEWMOUkXvfURz407m/l/xjRKyFW3XM39t7xGgF8GjARMJs/pT93tLPGvrZ7qlj9j92eIhdsexfg==}
+
+  '@conform-to/dom@1.6.1':
+    resolution: {integrity: sha512-9JaMBM6hD8uBu6VIggXScQAxpKUFGNFydiZHUKbW5nXIvqptLjiPPf1DXHrO0tQpl9EH+BWQ8rXFuVX8L3cYcw==}
+
+  '@conform-to/react@1.6.1':
+    resolution: {integrity: sha512-wjvHlA1ZnMzcqBHeMczwCcS0LM3dFvH9275k3vogRhV6Haaur59eNL4XOB4LSVKMFMtZRCBB3Vxaisug4Uq2Qg==}
+    peerDependencies:
+      react: '>=18'
+
+  '@conform-to/zod@1.6.1':
+    resolution: {integrity: sha512-uhViaaxJ4IJsCwBxHRNQKU1kT2t7W0/a4/YHv3Qy0J0CQu/HB+UHORlhTjoHpH4XlRS+N6vdO+5qZOC1Oi1QPg==}
+    peerDependencies:
+      zod: ^3.21.0
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -3076,6 +3098,18 @@ snapshots:
 
   '@cloudflare/workers-types@4.20250531.0':
     optional: true
+
+  '@conform-to/dom@1.6.1': {}
+
+  '@conform-to/react@1.6.1(react@19.1.0)':
+    dependencies:
+      '@conform-to/dom': 1.6.1
+      react: 19.1.0
+
+  '@conform-to/zod@1.6.1(zod@3.25.42)':
+    dependencies:
+      '@conform-to/dom': 1.6.1
+      zod: 3.25.42
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:

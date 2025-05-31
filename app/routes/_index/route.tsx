@@ -1,47 +1,76 @@
-import { useSession } from '~/hooks/use-session'
-import { Dashboard } from '~/routes/_index/components/dashboard'
-import { SigninForm } from '~/routes/_index/components/signin-form'
+import { href, redirect, useNavigate } from 'react-router'
+import { Button } from '~/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card'
+import { authClient } from '~/lib/auth-client'
+import type { Route } from './+types/route'
 
-export function meta() {
+export const meta: Route.MetaFunction = () => {
   return [
     { title: 'ホーム - Better Auth App' },
     { name: 'description', content: 'Better Auth を使用した認証アプリ' },
   ]
 }
 
-export default function Home() {
-  const { data, isPending, error } = useSession()
+export const clientLoader = async () => {
+  const session = await authClient.getSession()
 
-  if (isPending) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600" />
-          <p>読み込み中...</p>
-        </div>
-      </div>
-    )
+  if (!session.data) {
+    return redirect(href('/signin'))
   }
 
-  if (error) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center text-red-600">
-          <p>エラーが発生しました: {error.message}</p>
-        </div>
-      </div>
-    )
+  return { session: session.data.session, user: session.data.user }
+}
+
+export default function Home({
+  loaderData: { session, user },
+}: Route.ComponentProps) {
+  const navigate = useNavigate()
+
+  const handleSignOut = async () => {
+    try {
+      await authClient.signOut()
+      navigate('/')
+    } catch (error) {
+      console.error('Sign out error:', error)
+    }
   }
 
-  // ユーザーがサインイン済みの場合はダッシュボードを表示
-  if (data?.user) {
-    return <Dashboard user={data.user} />
-  }
-
-  // 未サインインの場合はサインインフォームを表示
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <SigninForm />
+    <div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+      <Card className="mx-auto w-full max-w-2xl">
+        <CardHeader>
+          <CardTitle>ダッシュボード</CardTitle>
+          <CardDescription>ようこそ、{user.name}さん</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <p>
+              <strong>ユーザー名:</strong> {user.name}
+            </p>
+            <p>
+              <strong>メールアドレス:</strong> {user.email}
+            </p>
+            <p>
+              <strong>ユーザーID:</strong> {user.id}
+            </p>
+          </div>
+
+          <Button
+            onClick={handleSignOut}
+            type="button"
+            variant="outline"
+            className="w-full"
+          >
+            サインアウト
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   )
 }
