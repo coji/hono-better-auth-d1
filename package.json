@@ -12,7 +12,7 @@
     "format": "prettier --check .",
     "typecheck": "tsc",
     "validate": "run-p format lint && run-p typecheck",
-    "auth:generate": "pnpm dlx @better-auth/cli generate --config scripts/auth.migration-dummy.ts --output api/db/schema-better-auth.ts",
+    "auth:generate": "pnpm dlx @better-auth/cli generate --config scripts/auth.migration-dummy.ts --output api/db/schema-auth.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "wrangler d1 migrations apply hono-better-auth-db --local",
     "db:migrate:prod": "wrangler d1 migrations apply hono-better-auth-db"
