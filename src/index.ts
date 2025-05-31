@@ -1,9 +1,15 @@
 import { Hono } from 'hono'
+import type { AuthType } from './lib/auth'
+import auth from './routes/auth'
 
-const app = new Hono()
+const app = new Hono<{ Variables: AuthType }>({
+  strict: false,
+})
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+const routes = [auth] as const
+// biome-ignore lint/complexity/noForEach: <explanation>
+routes.forEach((route) => {
+  app.basePath('/api').route('/', route)
 })
 
 export default app
