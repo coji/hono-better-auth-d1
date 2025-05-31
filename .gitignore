@@ -37,3 +37,5 @@ lerna-debug.log*
 # React Router
 /.react-router/
 /build/
+
+.claude
