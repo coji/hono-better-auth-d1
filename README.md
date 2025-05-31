@@ -1,6 +1,6 @@
 # Hono Better Auth D1
 
-フルスタック認証アプリケーション - Hono + Better Auth + Cloudflare D1 + React Router + shadcn/ui
+フルスタック認証アプリケーション - Hono + Better Auth + Cloudflare D1 + React Router + Conform + Zod
 
 ## 🚀 技術スタック
 
@@ -14,8 +14,10 @@
 ### フロントエンド
 
 - **[React Router v7](https://reactrouter.com/)** - SPAモード（`ssr: false`）でファイルベースルーティング
+- **[Conform](https://conform.guide/)** - 型安全なフォームバリデーション
+- **[Zod](https://zod.dev/)** - TypeScript ファーストスキーマバリデーション
 - **[Tailwind CSS v4](https://tailwindcss.com/)** - ユーティリティファーストCSSフレームワーク
-- **[shadcn/ui](https://ui.shadcn.com/)** - 美しく再利用可能なコンポーネント
+- **[Radix UI](https://www.radix-ui.com/)** - アクセシブルなプリミティブコンポーネント
 
 ### 開発ツール
 
@@ -27,13 +29,14 @@
 ## ✨ 機能
 
 - ✅ メール・パスワード認証
-- ✅ ユーザー登録（サインアップ）
+- ✅ ユーザー登録（サインアップ）- 名前、メール、パスワード確認付き
 - ✅ ユーザーログイン（サインイン）
-- ✅ セッション管理
+- ✅ セッション管理と自動リダイレクト
 - ✅ レスポンシブなUI/UX
-- ✅ フォームバリデーション
+- ✅ リアルタイムフォームバリデーション（Conform + Zod）
 - ✅ エラーハンドリング
 - ✅ ローディング状態表示
+- ✅ 型安全なフォーム処理
 
 ## 🛠️ セットアップ
 
@@ -89,10 +92,11 @@ pnpm dev:client # React Routerフロントエンド
 │       └── auth.ts        # 認証API ルート
 ├── app/                   # フロントエンド（React Router v7 SPA）
 │   ├── components/        # UIコンポーネント
-│   │   ├── ui/           # shadcn/ui コンポーネント
-│   │   ├── signin-form.tsx
-│   │   ├── signup-form.tsx
-│   │   └── dashboard.tsx
+│   │   └── ui/           # Radix UI ベースコンポーネント
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── input.tsx
+│   │       └── label.tsx
 │   ├── hooks/
 │   │   └── use-session.ts # セッション管理フック
 │   ├── lib/
@@ -100,7 +104,8 @@ pnpm dev:client # React Routerフロントエンド
 │   │   └── utils.ts       # ユーティリティ関数
 │   ├── routes/           # ファイルベースルーティング
 │   │   ├── _index/       # ホームページ
-│   │   └── signup/       # サインアップページ
+│   │   ├── signin/       # サインインページ（Conform + Zod）
+│   │   └── signup/       # サインアップページ（Conform + Zod）
 │   ├── root.tsx          # ルートコンポーネント
 │   ├── routes.ts         # ルート定義
 │   └── app.css           # グローバルスタイル
@@ -108,7 +113,7 @@ pnpm dev:client # React Routerフロントエンド
 ├── scripts/              # スクリプト
 ├── public/               # 静的ファイル
 ├── react-router.config.ts # React Router設定（SPAモード）
-├── components.json       # shadcn/ui設定
+├── components.json       # UI コンポーネント設定
 ├── drizzle.config.ts     # Drizzle ORM設定
 └── wrangler.jsonc        # Cloudflare Workers設定
 ```
@@ -151,12 +156,12 @@ pnpm typegen              # Cloudflare Workers 型生成
 
 ## 🌐 API エンドポイント
 
-認証APIは `/api` 下にマウントされています：
+認証APIは `/api/auth` 下にマウントされています：
 
-- `POST /api/sign-up` - ユーザー登録
-- `POST /api/sign-in` - ユーザーログイン
-- `POST /api/sign-out` - ユーザーログアウト
-- `GET /api/session` - セッション情報取得
+- `POST /api/auth/sign-up` - ユーザー登録
+- `POST /api/auth/sign-in` - ユーザーログイン
+- `POST /api/auth/sign-out` - ユーザーログアウト
+- `GET /api/auth/session` - セッション情報取得
 
 ## 🚀 デプロイ
 
@@ -205,22 +210,50 @@ SPAモードにより：
 - 高速なページ遷移
 - ビルド時プリレンダリング
 
-## 🎨 UI コンポーネント
+## 📋 フォームバリデーション
 
-プロジェクトでは [shadcn/ui](https://ui.shadcn.com/) を使用しています。新しいコンポーネントを追加する場合：
+### Conform + Zod の利点
 
-```bash
-pnpm dlx shadcn@latest add button
-pnpm dlx shadcn@latest add input
-# など...
+- **型安全性**: Zodスキーマから自動的にTypeScriptの型を生成
+- **リアルタイムバリデーション**: クライアント・サーバー両方でバリデーション
+- **アクセシビリティ**: 自動的にaria属性を設定
+- **パフォーマンス**: 最適化されたレンダリング
+
+### サインインフォーム
+
+```typescript
+const schema = z.object({
+  email: z.string().email('有効なメールアドレスを入力してください'),
+  password: z.string().min(6, 'パスワードは6文字以上で入力してください'),
+})
+```
+
+### サインアップフォーム
+
+```typescript
+const schema = z.object({
+  name: z.string().min(1, 'ユーザー名は必須です'),
+  email: z.string().email('有効なメールアドレスを入力してください'),
+  password: z.string().min(8, 'パスワードは8文字以上で入力してください'),
+  confirmPassword: z.string().min(8, 'パスワード確認は必須です'),
+})
 ```
 
 ## 🔐 認証フロー
 
-1. **サインアップ**: `/signup` でユーザー名、メールアドレス、パスワードを入力
-2. **サインイン**: ホームページでメールアドレスとパスワードを入力
-3. **セッション管理**: サインイン後はダッシュボードが表示
-4. **サインアウト**: ダッシュボードからサインアウト可能
+1. **サインアップ**: `/signup` でユーザー名、メールアドレス、パスワード、パスワード確認を入力
+2. **サインイン**: `/signin` でメールアドレスとパスワードを入力
+3. **セッション管理**: サインイン後は自動的にホームページにリダイレクト
+4. **ルートガード**: セッションがある場合は認証ページにアクセス不可
+
+## 🎨 UI コンポーネント
+
+プロジェクトでは Radix UI をベースとしたカスタムコンポーネントを使用しています：
+
+- **Button**: `app/components/ui/button.tsx`
+- **Card**: `app/components/ui/card.tsx`
+- **Input**: `app/components/ui/input.tsx`
+- **Label**: `app/components/ui/label.tsx`
 
 ## 📝 開発ノート
 
@@ -228,7 +261,8 @@ pnpm dlx shadcn@latest add input
 - **TypeScript設定**: モノレポ構成で、フロントエンドとバックエンドで分離
 - **Better Auth**: email/password認証のみ有効化
 - **CORS設定**: ローカル開発環境（localhost:5173）に対応
-- **フォーム実装**: FormDataベースで実装（React状態管理なし）
+- **フォーム処理**: Conform + Zod で型安全なフォームバリデーション
+- **セッション管理**: クライアントサイドでのセッション状態管理
 
 ## 🤝 コントリビューション
 

@@ -36,18 +36,34 @@ This is a full-stack authentication application built with:
 
 ### Backend (Hono + Better Auth + Cloudflare D1)
 
-- **Entry Point**: `src/index.ts` - Main Hono application with CORS configuration
-- **Auth Configuration**: `src/lib/auth.config.ts` - Better Auth options (email/password enabled)
-- **Auth Instance**: `src/lib/auth.ts` - Better Auth instance with Drizzle adapter for SQLite
-- **Database**: `src/db/` - Drizzle ORM setup with auth schema (`schema-auth.ts`) and main schema (`schema.ts`)
-- **API Routes**: `src/routes/auth.ts` - Authentication endpoints mounted at `/api`
+- **Entry Point**: `api/index.ts` - Main Hono application with CORS configuration
+- **Auth Configuration**: `api/lib/auth.config.ts` - Better Auth options (email/password enabled)
+- **Auth Instance**: `api/lib/auth.ts` - Better Auth instance with Drizzle adapter for SQLite
+- **Database**: `api/db/` - Drizzle ORM setup with auth schema (`schema-auth.ts`) and main schema (`schema.ts`)
+- **API Routes**: `api/routes/auth.ts` - Authentication endpoints mounted at `/api/auth`
 
-### Frontend (React Router v7)
+### Frontend (React Router v7 + Conform + Zod)
 
 - **Configuration**: React Router in SPA mode with prerendering enabled
 - **Auth Client**: `app/lib/auth-client.ts` - Better Auth React client
-- **Routes**: `app/routes/` - File-based routing with home page
-- **Styling**: Tailwind CSS v4 integrated
+- **Form Validation**: Uses Conform with Zod for type-safe form handling and validation
+- **Routes**: File-based routing with sign-in (`/signin`) and sign-up (`/signup`) pages
+- **Styling**: Tailwind CSS v4 integrated with custom UI components
+
+### Frontend Components & Routes
+
+- **Home Page**: `app/routes/_index/route.tsx` - Landing page with auth status
+- **Sign In**: `app/routes/signin/route.tsx` - Email/password sign-in form with Conform validation
+- **Sign Up**: `app/routes/signup/route.tsx` - User registration form with name, email, password confirmation
+- **UI Components**: `app/components/ui/` - Reusable Radix UI components (Button, Card, Input, Label)
+- **Auth Hook**: `app/hooks/use-session.ts` - Session management utilities
+
+### Form Validation with Conform + Zod
+
+- **Sign In Schema**: Email and password validation (6+ characters)
+- **Sign Up Schema**: Name, email, password (8+ characters), and confirmation validation
+- **Real-time Validation**: Client-side validation with server-side error handling
+- **Type Safety**: Full TypeScript integration with Zod constraints
 
 ### Database Schema
 
@@ -61,9 +77,17 @@ This is a full-stack authentication application built with:
 - CORS configured for local development (localhost:5173)
 - Cloudflare D1 database binding named "DB" in wrangler.jsonc
 - Better Auth uses Drizzle adapter for database operations
+- React Router client-side routing with auth redirects
 
 ### Environment Setup
 
 - Uses pnpm workspace configuration
 - Cloudflare Workers with Node.js compatibility flags
 - TypeScript configuration split for different environments (cloudflare, node)
+
+# important-instruction-reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (\*.md) or README files. Only create documentation files if explicitly requested by the User.
