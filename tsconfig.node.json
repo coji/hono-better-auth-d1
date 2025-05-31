@@ -6,6 +6,7 @@
     "app/**/*",
     "app/**/.server/**/*",
     "app/**/.client/**/*",
+    "api/lib/auth.config.ts",
     "scripts/**/*"
   ],
   "compilerOptions": {

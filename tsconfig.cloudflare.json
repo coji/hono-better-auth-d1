@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*", "worker-configuration.d.ts"],
+  "include": ["api/**/*", "worker-configuration.d.ts"],
   "exclude": ["test/setup.ts"],
   "compilerOptions": {
     "composite": true,

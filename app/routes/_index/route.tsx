@@ -1,6 +1,6 @@
-import { useSession } from '~/hooks/use-session'
-import { SigninForm } from '@/components/signin-form'
 import { Dashboard } from '@/components/dashboard'
+import { SigninForm } from '@/components/signin-form'
+import { useSession } from '~/hooks/use-session'
 
 export function meta() {
   return [
@@ -14,9 +14,9 @@ export default function Home() {
 
   if (isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4" />
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600" />
           <p>読み込み中...</p>
         </div>
       </div>
@@ -25,7 +25,7 @@ export default function Home() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center text-red-600">
           <p>エラーが発生しました: {error.message}</p>
         </div>
@@ -40,7 +40,7 @@ export default function Home() {
 
   // 未サインインの場合はサインインフォームを表示
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <SigninForm />
     </div>
   )

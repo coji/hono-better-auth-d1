@@ -1,6 +1,6 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { config } from '../src/lib/auth.config'
+import { config } from '../api/lib/auth.config'
 
 export const auth = betterAuth({
   ...config,

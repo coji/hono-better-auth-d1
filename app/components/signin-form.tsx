@@ -1,9 +1,4 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
-import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   Card,
   CardContent,
@@ -11,6 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { authClient } from '@/lib/auth-client'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 
 export function SigninForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -42,7 +42,9 @@ export function SigninForm() {
           navigate('/')
         },
         onError: (error) => {
-          setError('サインインに失敗しました。メールアドレスとパスワードを確認してください。')
+          setError(
+            'サインインに失敗しました。メールアドレスとパスワードを確認してください。',
+          )
           console.error('Signin error:', error)
         },
       },
@@ -55,9 +57,7 @@ export function SigninForm() {
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>サインイン</CardTitle>
-        <CardDescription>
-          アカウントにサインインしてください
-        </CardDescription>
+        <CardDescription>アカウントにサインインしてください</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
